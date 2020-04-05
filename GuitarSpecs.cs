@@ -4,31 +4,29 @@ using System.Text;
 
 namespace RickGuitars
 {
-	public class GuitarSpecs {
-		public string Model { get; set; }
-		public Type Type { get; set; }
-		public Builder Builder { get; set; }
-		public Wood BackWood { get; set; }
-		public Wood TopWood { get; set; }
+	public class GuitarSpecs : InstrumentSpecs {
 
-		public GuitarSpecs(string model, Type type, Builder builder, Wood backWood, Wood topWood) {
-			this.Model = model;
-			this.Type = type;
-			this.Builder = builder;
-			this.BackWood = backWood;
-			this.TopWood = topWood;
+		public int NumberOfString { get; set; }
+
+		public GuitarSpecs(string model, Type type, Builder builder, Wood backWood, Wood topWood, int numOfString) : base(model, type, builder, backWood, topWood) {
+			NumberOfString = numOfString;
 		}
 
-		public bool MatchSpecs(GuitarSpecs guitarSpec) {
-			if (!this.Model.ToLower().Equals(guitarSpec.Model.ToLower()))
+		public new bool MatchSpecs(InstrumentSpecs instrumentSpecs) {
+			if (!base.MatchSpecs(instrumentSpecs)) {
 				return false;
-			if (this.Type != guitarSpec.Type)
-				return false;
-			if (this.Builder != guitarSpec.Builder)
-				return false;
-			if (this.BackWood != guitarSpec.BackWood)
-				return false;
-			if (this.TopWood != guitarSpec.TopWood)
+			}
+
+			if (instrumentSpecs is GuitarSpecs)
+			{
+				GuitarSpecs guitarSpecs = (GuitarSpecs)instrumentSpecs;
+				if (!(guitarSpecs.NumberOfString == NumberOfString))
+				{
+					return false;
+				}
+
+			}
+			else
 				return false;
 
 			return true;

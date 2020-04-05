@@ -4,22 +4,35 @@ namespace RickGuitars
 {
 	public class Inventory
 	{
-		List<Guitar> guitars;
+		List<Instrument> instruments;
 		public Inventory() {
-			guitars = new List<Guitar>();
+			instruments = new List<Instrument>();
 		}
 
-		public void AddGuitar(Guitar guitar) {
-			guitars.Add(guitar);
+		public void AddInstrument(Instrument instrument) {
+			instruments.Add(instrument);
 		}
 
-		public List<Guitar> SearchGuitar(GuitarSpecs guitarSpecs) {
-			List<Guitar> matchedGuitars = new List<Guitar>();
-			foreach (Guitar guitar in guitars) {
-				if (guitar.GuitarSpecs.MatchSpecs(guitarSpecs))
-					matchedGuitars.Add(guitar);
+		public List<Instrument> SearchInstrument(InstrumentSpecs instrumentSpecs)
+		{
+			List<Instrument> matchedInstruments = new List<Instrument>();
+			foreach (Instrument instrument in instruments)
+			{
+				if(instrument is Guitar && instrumentSpecs is GuitarSpecs)
+				{
+					if (((GuitarSpecs)instrument.specs).MatchSpecs((GuitarSpecs)instrumentSpecs)) {
+						matchedInstruments.Add(instrument);
+					}
+				}
+				else if(instrument is Mandolin && instrumentSpecs is MandolinSpecs)
+				{
+					if (((MandolinSpecs)instrument.specs).MatchSpecs((MandolinSpecs)instrumentSpecs))
+					{
+						matchedInstruments.Add(instrument);
+					}
+				}
 			}
-			return matchedGuitars;
+			return matchedInstruments;
 		}
 	}
-}
+	}
